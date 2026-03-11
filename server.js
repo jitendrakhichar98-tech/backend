@@ -2,16 +2,22 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const cors = require("cors");
+
 require("dotenv").config();
 
 const app = express();
 
+app.get('/', (req, res) => {
+  res.send('Backend is running successfully!');
+});
+
+
 // FIXED CORS
+const cors = require("cors");
 app.use(cors({
   origin: "https://crown-time-watches.netlify.app",
-  methods: ["GET","POST"],
-  allowedHeaders: ["Content-Type"],
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true
 }));
 
