@@ -45,6 +45,18 @@ const UserSchema = new mongoose.Schema({
 
 const User = mongoose.model("User",UserSchema);
 
+const OrderSchema = new mongoose.Schema({
+  email: String,
+  items: Array,
+  total: Number,
+  paymentId: String,
+  date: {
+    type: Date,
+    default: Date.now
+  }
+});
+
+const Order = mongoose.model("Order", OrderSchema);
 /* ---------- Signup ---------- */
 
 app.post("/api/signup", async (req,res)=>{
@@ -131,6 +143,46 @@ app.post("/api/login", async (req,res)=>{
 
 });
 
+app.post("/api/save-order", async (req, res) => {
+
+  try {
+
+    const { email, items, total, paymentId } = req.body;
+
+    const order = new Order({
+      email,
+      items,
+      total,
+      paymentId
+    });
+
+    await order.save();
+
+    res.json({ success:true });
+
+  } catch(err) {
+
+    res.status(500).json({ success:false });
+
+  }
+
+});
+
+app.get("/api/orders/:email", async (req, res) => {
+
+  try {
+
+    const orders = await Order.find({ email: req.params.email });
+
+    res.json(orders);
+
+  } catch(err) {
+
+    res.status(500).json({ success:false });
+
+  }
+
+});
 /* ---------- Server ---------- */
 
 const PORT = process.env.PORT || 5000;
