@@ -10,7 +10,7 @@ const app = express();
 /* ---------- Middleware ---------- */
 
 app.use(cors({
-  origin: "https://crown-time-watches.netlify.app",
+  origin: "https://crown-time-watches1.netlify.app",
   methods: ["GET","POST"],
   allowedHeaders: ["Content-Type","Authorization"]
 }));
